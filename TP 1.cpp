@@ -6,10 +6,23 @@
 // Bibliotecas
 #include <iostream>
 #include <cstdlib>
-#include <conio.h>
 
 // Namespace
 using namespace std;
+
+// Limpiar la pantalla para diferentes SO
+#ifdef _WIN32
+  #include<windows.h>
+#endif  
+
+void limpiar_pantalla()
+{
+  #ifdef _WIN32
+    system("cls");
+  #else
+    system("clear");
+  #endif
+}
 
 // Estructuras
 struct MP3{
@@ -27,7 +40,8 @@ int main(){
 	req_data();
 	
 	cout << "\nEnter to continue...";
-	getch();
+	cin.get();
+	cin.ignore();
 	return 0;
 }
 
@@ -42,7 +56,7 @@ void req_data(){
 	MP3 list[n];
 	
 	do{
-		if(system("cls"))system("clean");
+		limpiar_pantalla();
 		fflush(stdin);
 		cout << ".MP3 Title: ";
 		getline(cin, list[i].title);
@@ -53,13 +67,14 @@ void req_data(){
 		cout << ".Size (in kbs): ";
 		cin >> list[i].mp3_size;
 		cout << "\nEnter to continue...";
-		getch();
+		cin.get();
+		cin.ignore();
 		i++;
 	}while(i < n);
 	
-	if(system("cls"))system("clean");
+	limpiar_pantalla();
 	cout << "|Title" << "\t\t\t\t|Artist" << "\t\t\t\t|Duration (sec)" << "\t\t\t|Size (kbs)" << endl;
-	cout << "----------------------------------------------------------------------------------------------------" << endl;
+	cout << "--------------------------------------------------------------------------------------------------------------" << endl;
 	for(int i = 0; i < n; i++){
 		cout << "|" << list[i].title << "\t\t\t\t|" << list[i].artist << "\t\t\t\t|" << list[i].len << "\t\t\t\t|" << list[i].mp3_size << endl;
 	}
