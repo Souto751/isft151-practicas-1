@@ -173,7 +173,7 @@ void newFile()
 	
 	std::ofstream archivo;
 	
-	cin.ignore();
+	std::cin.ignore();
 	
 	if(n == 1000)
 	{
@@ -245,7 +245,7 @@ void showMoreThan()
 
 void oneFileData()
 {
-	cin.ignore();
+	std::cin.ignore();
 	std::string searchName;
 	bool found = false;
 	
