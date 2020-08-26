@@ -1,31 +1,31 @@
-//Pr·cticas Profesionalizantes I
-//Profesor: Gonz·lez Ferreira, Gabriel Nicol·s
-//Alumno: NuÒez Souto, A. AgustÌn
+//Pr√°cticas Profesionalizantes I
+//Profesor: Gonz√°lez Ferreira, Gabriel Nicol√°s
+//Alumno: Nu√±ez Souto, A. Agust√≠n
 
 /*
-Vamos a hacer un ejemplo completo que use arreglos (ìarraysî), y estructuras (ìstructî) y que adem·s manipule strings. La idea va a ser la siguiente: Crearemos un programa que pueda almacenar datos de hasta 1000 archivos (archivos de computadora). Para cada archivo, debe guardar los  siguientes datos: Nombre del archivo (max 40 letras), TamaÒo (en KB, n˙mero de 0 a 2.000.000.000). El programa mostrar· un men˙ que permita al usuario las siguientes operaciones:
+Vamos a hacer un ejemplo completo que use arreglos (‚Äúarrays‚Äù), y estructuras (‚Äústruct‚Äù) y que adem√°s manipule strings. La idea va a ser la siguiente: Crearemos un programa que pueda almacenar datos de hasta 1000 archivos (archivos de computadora). Para cada archivo, debe guardar los  siguientes datos: Nombre del archivo (max 40 letras), Tama√±o (en KB, n√∫mero de 0 a 2.000.000.000). El programa mostrar√° un men√∫ que permita al usuario las siguientes operaciones:
 
-1- AÒadir datos de un nuevo archivo
+1- A√±adir datos de un nuevo archivo
 2- Mostrar los nombres de todos los archivos almacenados
-3- Mostrar archivos que sean de m·s de un cierto tamaÒo (por ejemplo, 2000 KB).
+3- Mostrar archivos que sean de m√°s de un cierto tama√±o (por ejemplo, 2000 KB).
 4- Ver todos los datos de un cierto archivo (a partir de su nombre)
-5- Salir de la aplicaciÛn (como todavÌa no sabemos almacenar los datos, Èstos se perder·n).
+5- Salir de la aplicaci√≥n (como todav√≠a no sabemos almacenar los datos, √©stos se perder√°n).
 
-No deberÌa resultar difÌcil. Vamos a ver directamente una de las formas en que se podrÌa plantear y luego comentaremos alguna de las mejoras que se podrÌa (incluso se deberÌa) hacer.
+No deber√≠a resultar dif√≠cil. Vamos a ver directamente una de las formas en que se podr√≠a plantear y luego comentaremos alguna de las mejoras que se podr√≠a (incluso se deber√≠a) hacer.
 
-Una opciÛn que podemos a tomar para resolver este problema es la de contar el n˙mero de archivos que tenemos almacenados, y asÌ podremos aÒadir de uno en uno. 
+Una opci√≥n que podemos a tomar para resolver este problema es la de contar el n√∫mero de archivos que tenemos almacenados, y as√≠ podremos a√±adir de uno en uno. 
 
-Si tenemos 0 archivos, deberemos almacenar la siguiente (la primera) en la posiciÛn 0; si tenemos dos archivos, ser·n la 0 y la 1, luego aÒadiremos en la posiciÛn 2; en general, si tenemos ìnî archivos, aÒadiremos cada nueva ficha en la 
-posiciÛn ìnî. Por otra parte, para revisar todas las archivos, recorreremos desde la posiciÛn 0 hasta la n-1, haciendo algo como:
-for (i=0; i<=n-1; i++) { //... m·s Ûrdenes ... }
+Si tenemos 0 archivos, deberemos almacenar la siguiente (la primera) en la posici√≥n 0; si tenemos dos archivos, ser√°n la 0 y la 1, luego a√±adiremos en la posici√≥n 2; en general, si tenemos ‚Äún‚Äù archivos, a√±adiremos cada nueva ficha en la 
+posici√≥n ‚Äún‚Äù. Por otra parte, para revisar todas las archivos, recorreremos desde la posici√≥n 0 hasta la n-1, haciendo algo como:
+for (i=0; i<=n-1; i++) { //... m√°s √≥rdenes ... }
 
 O algo como:
-for (i=0; i<n; i++) { //... m·s Ûrdenes ... }
+for (i=0; i<n; i++) { //... m√°s √≥rdenes ... }
 
-El resto del programa no es difÌcil: sabemos leer y comparar textos y n˙meros. 
-SÛlo haremos dos consideraciones:
-         -No se comportar· correctamente si los textos (nombre del archivo, por ejemplo) contienen espacios, porque a˙n no sabemos leer textos con espacios.
-         -Hemos limitado el n˙mero de archivos a 1000, asÌ que, si nos piden aÒadir, deberÌamos asegurarnos antes de que todavÌa tenemos hueco disponible.
+El resto del programa no es dif√≠cil: sabemos leer y comparar textos y n√∫meros. 
+S√≥lo haremos dos consideraciones:
+         -No se comportar√° correctamente si los textos (nombre del archivo, por ejemplo) contienen espacios, porque a√∫n no sabemos leer textos con espacios.
+         -Hemos limitado el n√∫mero de archivos a 1000, as√≠ que, si nos piden a√±adir, deber√≠amos asegurarnos antes de que todav√≠a tenemos hueco disponible.
 */
 //--Bibliotecas--
 #include <iostream>
@@ -33,7 +33,7 @@ SÛlo haremos dos consideraciones:
 #include <fstream>
 #include <cstdio>
 
-//--CleanScreen-- LeÌ que es un comando para que limpie en linux (apple utiliza el mismo comando) y que el _WIN32 lo adapta a windows
+//--CleanScreen-- Le√≠ que es un comando para que limpie en linux (apple utiliza el mismo comando) y que el _WIN32 lo adapta a windows
 
 #ifdef _WIN32
   #include<windows.h>
@@ -140,7 +140,7 @@ void menu()
 		std::cout << "Menu:" << std::endl;
 		std::cout << "1. Agregar datos de un nuevo archivo." << std::endl;
 		std::cout << "2. Mostrar los nombres de todos los archivos almacenados." << std::endl;
-		std::cout << "3. Mostrar archivos que sean de mas de un cierto tamaÒo (por ejemplo, 2000 KB)." << std::endl;
+		std::cout << "3. Mostrar archivos que sean de mas de un cierto tama√±o (por ejemplo, 2000 KB)." << std::endl;
 		std::cout << "4. Ver todos los datos de un cierto archivo (a partir de su nombre)." << std::endl;
 		std::cout << "5. Salir de la aplicacion." << std::endl << std::endl;
 		std::cout << "Opcion: ";
@@ -180,7 +180,6 @@ void newFile()
 		std::cout << "\nNumero maximo de archivos alcanzado." << std::endl;
 	}else
 	{
-		std::cout << n << std::endl;
 		std::cout << "\nIngrese el nombre del archivo: ";
 		getline(std::cin, files[n].name);
 		std::cout << "Ingrese el tamanio del archivo (en KB): ";
