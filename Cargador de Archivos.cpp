@@ -89,7 +89,7 @@ void howManyFiles()
 	if(n == 0)
 	{
 		std::string num;
-    	std::ifstream arch;
+    		std::ifstream arch;
 		arch.open("contador.txt");
 		getline(arch, num, '\n');
 		arch.close();
