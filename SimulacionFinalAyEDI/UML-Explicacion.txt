@@ -1,0 +1,22 @@
+Agustín Souto
+
+Yo considero que en ambos casos, los esquemas pueden representar el problema dependiendo de cómo
+se enfoque.
+En el archivo UML-1 se ve que tanto taller como vehículo al ser destruidos, las clases hijas también
+son destruidas. Esto se debe a que si no existe la clase vehículo, no pueden existir las clases coche
+y moto; y, a su vez, si no existe un taller tampoco habrían vehículos, dado que si nos ponemos del lado
+del taller, al no haber un taller como tal, no tendrían ningún vehículo.
+En el archivo UML-2 se presenta la situación inversa en cuanto al taller, ya que aunque el taller no
+exista, los vehículos van a seguir existiendo pero sin relación alguna con el taller. Por otra parte,
+sin la clase vehículo, no existirían las clases coche y moto.
+
+Correcciones:
+
+En ambos archivos en la clases vehículo, coche y moto, se les añadió un - a las variables, representando
+que son variables privadas.
+
+En el archivo UML-1 se cambió la relación entre la clase vehículo y las clases coche y moto, pasando de
+ser una agregación a una composición.
+
+En el archivo UML-2 se invirtieron los tipos de relaciones, siendo de agregación la de taller y vehículo
+y de composición la de vehículo con las clases coche y moto.
