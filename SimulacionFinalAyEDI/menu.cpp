@@ -102,6 +102,7 @@ void what_vehicle()	//Selecciona entre coche y moto, depende de la eleccion se c
 			std::cout << "Ingrese el motor del vehiculo: ";
 			std::cin >> aux;
 			vh = new Coche(co, ma, aux);
+			delete vh;
 			break;
 					
 		
@@ -116,6 +117,7 @@ void what_vehicle()	//Selecciona entre coche y moto, depende de la eleccion se c
 			std::cout << "Ingrese la cilindrada del vehiculo: ";
 			std::cin >> aux;
 			vh = new Moto(co, ma, aux);
+			delete vh;
 			break;
 			
 	}
