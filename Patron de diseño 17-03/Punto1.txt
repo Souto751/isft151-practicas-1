@@ -1,0 +1,11 @@
+La clase IFileSystemComponent representa una interface, de la cual las clases File y Folder heredan sus métodos.
+
+La clase File vendría a ser una hoja, mientras que Folder viene a ser el composite, ambas de la clase IFileSystemComponent.
+
+En otras palabras, File representa la parte más pequeña de la estructura, mientras que Folder está conformada por otros 
+elementos (File o Folder). Por ello, se encuentra una flecha a la derecha de Folder que se dirige a IFileSystemComponent, ya que
+dentro de Folder se pueden encontrar elementos IFileSystemComponent.
+
+El apartado 'for each child...' es un comentario, el cual indica para cada hijo de la clase folder, se pase un depth de tipo int,
+lo cual en el código se implementa al mostrar los elementos en pantalla, añadiendo una cierta cantidad de '-' a la izquierda del nombre
+de cada objeto creado. Si un objeto es hijo de otro, éste va a tener un '-' más que el que tiene el padre.
