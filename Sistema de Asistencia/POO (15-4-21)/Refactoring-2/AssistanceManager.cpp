@@ -264,6 +264,7 @@ void returnMenu(){
 void AssistanceManager(){
 	
 	int day, month, year;
+	int action;
 	
 	std::vector<Student> *studentList = new std::vector<Student>();
 	std::vector<Course> *courseList = new std::vector<Course>();
@@ -273,54 +274,42 @@ void AssistanceManager(){
 	std::ifstream loadCourses;
 	
 	loadStudents.open("students.txt");
-	loadCourses.open("courses.txt");
-	
 	if(loadStudents.is_open()){
 		std::string loadAux;
 		do{
 			Student *student = new Student();
 			std::getline(loadStudents, loadAux);
-			std::cout << loadAux << std::endl;
-			//student->setIdentifier(std::stoi(loadAux));
+			student->setIdentifier(std::stoi(loadAux));
 			std::getline(loadStudents, loadAux);
-			std::cout << loadAux << std::endl;
-			//student->setName(loadAux);
+			student->setName(loadAux);
 			std::getline(loadStudents, loadAux);
-			std::cout << loadAux << std::endl;
-			//student->setSurname(loadAux);
+			student->setSurname(loadAux);
 			std::getline(loadStudents, loadAux);
-			std::cout << loadAux << std::endl;
-			//studentList->push_back(*student);
-			std::getline(loadStudents, loadAux);
-			std::cout << loadAux << std::endl;
+			studentList->push_back(*student);
 			delete student;
 		}while(loadAux != "-end-");
 		
 		loadStudents.close();
-	}else{
-		std::cout << "Error" << std::endl << std::endl;
 	}
 	
+	loadCourses.open("courses.txt");
 	if(loadCourses.is_open()){
 		std::string loadAux;
 		do{
 			Course *course = new Course();
 			std::getline(loadCourses, loadAux);
-			std::cout << loadAux << std::endl;
-			//course->setIdentifier(std::stoi(loadAux));
+			course->setIdentifier(std::stoi(loadAux));
 			std::getline(loadCourses, loadAux);
-			std::cout << loadAux << std::endl;
-			//course->setName(loadAux);
+			course->setName(loadAux);
 			std::getline(loadCourses, loadAux);
-			std::cout << loadAux << std::endl;
-			if(loadAux != ""){
+			if(loadAux != "" && loadAux != "-end-"){
 				do{
-					//course->addStudent(std::stoi(loadAux));
-					std::cout << loadAux << std::endl;
+					course->addStudent(std::stoi(loadAux));
 					std::getline(loadCourses, loadAux);
-				}while(loadAux != "");
+				}while(loadAux != "" && loadAux != "-end-");
 			}
 			delete course;
+			
 		}while(loadAux != "-end-");
 		loadCourses.close();
 	}
@@ -328,15 +317,29 @@ void AssistanceManager(){
 	std::cout << " Bienvenido al Manager de Asistencia" << std::endl << std::endl
 	 		  << " A continuacion se le pedira que ingrese la fecha que desee utilizar para la asistencia." << std::endl
 			  << " Esta se podra modificar luego." << std::endl << std::endl
-			  << " Dia: ";
-	std::cin >> day;
+			  << " Anio: ";
+	std::cin >> year;
 	std::cout << " Mes: ";
 	std::cin >> month;
-	std::cout << " Anio: ";
-	std::cin >> year;
+	std::cout << " Dia: ";
+	std::cin >> day;
 	
 	
-	day = menu();
+	action = menu();
+	
+	switch(action){
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+		case 8:
+		case 9:
+		case 10:
+		case 11:
+	}
 	
 	delete [] studentList;
 	delete [] courseList;
