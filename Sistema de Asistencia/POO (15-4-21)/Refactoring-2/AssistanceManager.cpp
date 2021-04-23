@@ -21,7 +21,6 @@ void limpiar(){
   #endif
 }
 
-
 // -----Student----- //
 class Student{
 	private:
@@ -84,6 +83,9 @@ class Course{
 		};
 		void addStudent(int id){
 			this->studentsId.push_back(id);
+		}
+		std::vector<int> getStudentsId(){
+			return this->studentsId;
 		}
 };
 
@@ -212,6 +214,12 @@ class CourseMapper{
 // -----Menu Section------ //
 // ----------------------- //
 
+// -----Global Variable----- //
+bool firstLoad = true;
+int day, month, year;
+CourseMapper *cmppr = new CourseMapper();
+StudentMapper *smppr = new StudentMapper();
+
 // -----Menu----- //
 int menu(){
 	int opc = 0;
@@ -219,6 +227,7 @@ int menu(){
 		limpiar();
 		std::cout << " Manager de Asistencia" << std::endl
 				  << " ---------------------" << std::endl << std::endl 
+				  << "[ " << day << " / " << month << " / " << year << " ]" << std::endl << std::endl
 				  << " Asistencia" << std::endl 
 				  << "   1. Tomar Asistencia" << std::endl << std::endl 
 				  << " Alumnos" << std::endl
@@ -245,107 +254,196 @@ int menu(){
 	return opc;
 }
 
-// -----Return To Menu----- //
-void returnMenu(){
-	std::string opc;
-	std::cout << " Regresar al menu? [Si : 1 | No : Cualquier tecla]: ";
-	getline(std::cin, opc);
-	if(opc == "1"){
-		menu();	
-	}else{
-		std::cout << "\n Hasta pronto!" << std::endl;
-	}
-}
-
-
 // --------------------------- //
 // -----AssistanceManager----- //
 // --------------------------- //
 void AssistanceManager(){
 	
-	int day, month, year;
 	int action;
 	
-	std::vector<Student> *studentList = new std::vector<Student>();
-	std::vector<Course> *courseList = new std::vector<Course>();
+	if(firstLoad == true){
 	
-	// ... Load Data ... //
-	std::ifstream loadStudents;
-	std::ifstream loadCourses;
-	
-	loadStudents.open("students.txt");
-	if(loadStudents.is_open()){
-		std::string loadAux;
-		do{
-			Student *student = new Student();
-			std::getline(loadStudents, loadAux);
-			student->setIdentifier(std::stoi(loadAux));
-			std::getline(loadStudents, loadAux);
-			student->setName(loadAux);
-			std::getline(loadStudents, loadAux);
-			student->setSurname(loadAux);
-			std::getline(loadStudents, loadAux);
-			studentList->push_back(*student);
-			delete student;
-		}while(loadAux != "-end-");
+		// ... Load Data ... //
+		std::ifstream loadStudents;
+		std::ifstream loadCourses;
 		
-		loadStudents.close();
-	}
-	
-	loadCourses.open("courses.txt");
-	if(loadCourses.is_open()){
-		std::string loadAux;
-		do{
-			Course *course = new Course();
-			std::getline(loadCourses, loadAux);
-			course->setIdentifier(std::stoi(loadAux));
-			std::getline(loadCourses, loadAux);
-			course->setName(loadAux);
-			std::getline(loadCourses, loadAux);
-			if(loadAux != "" && loadAux != "-end-"){
-				do{
-					course->addStudent(std::stoi(loadAux));
-					std::getline(loadCourses, loadAux);
-				}while(loadAux != "" && loadAux != "-end-");
-			}
-			delete course;
+		loadStudents.open("students.txt");
+		if(loadStudents.is_open()){
+			std::string loadAux;
+			do{
+				Student student;
+				std::getline(loadStudents, loadAux);
+				student.setIdentifier(std::stoi(loadAux));
+				std::getline(loadStudents, loadAux);
+				student.setName(loadAux);
+				std::getline(loadStudents, loadAux);
+				student.setSurname(loadAux);
+				std::getline(loadStudents, loadAux);
+				smppr->insert(student);
+			}while(loadAux != "-end-");
 			
-		}while(loadAux != "-end-");
-		loadCourses.close();
+			loadStudents.close();
+		}
+		
+		loadCourses.open("courses.txt");
+		if(loadCourses.is_open()){
+			std::string loadAux;
+			do{
+				Course course;
+				std::getline(loadCourses, loadAux);
+				course.setIdentifier(std::stoi(loadAux));
+				std::getline(loadCourses, loadAux);
+				course.setName(loadAux);
+				std::getline(loadCourses, loadAux);
+				if(loadAux != "" && loadAux != "-end-"){
+					do{
+						course.addStudent(std::stoi(loadAux));
+						std::getline(loadCourses, loadAux);
+					}while(loadAux != "" && loadAux != "-end-");
+				}
+				cmppr->insert(course);
+			}while(loadAux != "-end-");
+			loadCourses.close();
+		}
+			std::cout << " Bienvenido al Manager de Asistencia" << std::endl << std::endl
+			 		  << " A continuacion se le pedira que ingrese la fecha que desee utilizar para la asistencia." << std::endl
+					  << " Esta se podra modificar luego." << std::endl << std::endl
+					  << " Anio: ";
+			std::cin >> year;
+			std::cout << " Mes: ";
+			std::cin >> month;
+			std::cout << " Dia: ";
+			std::cin >> day;
+			firstLoad = false;
 	}
-	
-	std::cout << " Bienvenido al Manager de Asistencia" << std::endl << std::endl
-	 		  << " A continuacion se le pedira que ingrese la fecha que desee utilizar para la asistencia." << std::endl
-			  << " Esta se podra modificar luego." << std::endl << std::endl
-			  << " Anio: ";
-	std::cin >> year;
-	std::cout << " Mes: ";
-	std::cin >> month;
-	std::cout << " Dia: ";
-	std::cin >> day;
-	
 	
 	action = menu();
 	
 	switch(action){
 		case 1:
+			if(cmppr->getCoursesList().size() > 0){
+				int selectCourse;
+				do{
+					limpiar();
+					std::cout << " Selecciona el curso al cual tomar asistencia:" << std::endl << std::endl;
+					for(int i = 0 ; i < cmppr->getCoursesList().size() ; i++){
+						std::cout << "   " << i+1 << ". " << cmppr->getCoursesList()[i].getName() << std::endl;
+					}
+					std::cout << "\n " << cmppr->getCoursesList().size()+1 << ". Volver al menu" << std::endl << std::endl;
+					std::cout << "\n Opcion: ";
+					std::cin >> selectCourse;
+					if(selectCourse < 1 || selectCourse > cmppr->getCoursesList().size() +1){
+						std::cout << "\n Opcion Invalida."<< std::endl;
+						std::cin.get();
+						std::cin.ignore();
+					}
+				}while(selectCourse < 1 || selectCourse > cmppr->getCoursesList().size() +1);
+				
+				selectCourse--;
+				
+				if(selectCourse == cmppr->getCoursesList().size()){
+					AssistanceManager();
+				}else{
+					int present;
+					limpiar();
+					std::cout << " " << cmppr->getCoursesList()[selectCourse].getName() << std::endl << std::endl;
+					for(int i = 0; i < cmppr->getCoursesList()[selectCourse].getStudentsId().size(); i++){
+						std::cout << "   " << i+1 << ". " << smppr->getStudentsList()[cmppr->getCoursesList()[selectCourse].getStudentsId()[i]-1].getSurname() << ", " << smppr->getStudentsList()[cmppr->getCoursesList()[selectCourse].getStudentsId()[i]-1].getName() << " | Presente: ";
+						std::cin >> present;
+						std::cout << std::endl;
+					}
+				}
+				AssistanceManager();
+			}else{
+				limpiar();
+				std::cout << " No hay cursos cargados." << std::endl;
+				std::cin.get();
+				std::cin.ignore();
+				AssistanceManager();
+			}
 		case 2:
+			if(smppr->getStudentsList().size() > 0){
+				limpiar();
+				std::cout << " Mostrar Lista de Alumnos" << std::endl << std::endl;
+				for(int i = 0; i < smppr->getStudentsList().size(); i++){
+					std::cout << "   " << smppr->getStudentsList()[i].getIdentifier() << ". " << smppr->getStudentsList()[i].getSurname() << ", " << smppr->getStudentsList()[i].getName() << std::endl;
+				}
+				
+				std::cin.get();
+				std::cin.ignore();
+				AssistanceManager();
+			}else{
+				limpiar();
+				std::cout << " No hay alumnos cargados." << std::endl;
+				std::cin.get();
+				std::cin.ignore();
+				AssistanceManager();
+			}
+			break;
 		case 3:
+			break;
 		case 4:
+			if(smppr->getStudentsList().size() > 0){
+			}else{
+				limpiar();
+				std::cout << " No hay alumnos cargados." << std::endl;
+				std::cin.get();
+				std::cin.ignore();
+				AssistanceManager();
+			}
+			break;
 		case 5:
+			break;
 		case 6:
+			if(cmppr->getCoursesList().size() > 0){
+				limpiar();
+				std::cout << " Mostrar Lista de Cursos" << std::endl << std::endl;
+				for(int i = 0; i < cmppr->getCoursesList().size(); i++){
+					std::cout << "   . " << cmppr->getCoursesList()[i].getName() << std::endl;
+				}
+				
+				std::cin.get();
+				std::cin.ignore();
+				AssistanceManager();
+			}else{
+				limpiar();
+				std::cout << " No hay cursos cargados." << std::endl;
+				std::cin.get();
+				std::cin.ignore();
+				AssistanceManager();
+			}
+			break;
 		case 7:
+			break;
 		case 8:
+			if(cmppr->getCoursesList().size() > 0){
+			}else{
+				limpiar();
+				std::cout << " No hay cursos cargados." << std::endl;
+				std::cin.get();
+				std::cin.ignore();
+				AssistanceManager();
+			}
+			break;
 		case 9:
+			break;
 		case 10:
+			limpiar();
+			std::cout << " Cambiar Fecha" << std::endl << std::endl
+					  << "   Anio: ";
+			std::cin >> year;
+			std::cout << "   Mes: ";
+			std::cin >> month;
+			std::cout << "   Dia: ";
+			std::cin >> day;
+			AssistanceManager();
+			break;
 		case 11:
+			std::cout << "\n Hasta pronto!" << std::endl;
+			std::cin.get();
+			std::cin.ignore();
+			break;
 	}
-	
-	delete [] studentList;
-	delete [] courseList;
-	
-	std::cin.get();
-	std::cin.ignore();
 }
 
 // -------------- //
